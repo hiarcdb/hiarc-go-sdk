@@ -6,10 +6,8 @@ info:
   title: Hiarc API
   version: 0.1.0
 servers:
-- description: Localhost
+- description: HiarcServer
   url: http://localhost:5000
-- description: Production
-  url: http://your-production-server:5000
 security:
 - AdminApiKeyAuth: []
 - JWTBearerAuth: []

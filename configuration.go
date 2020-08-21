@@ -105,11 +105,7 @@ func NewConfiguration() *Configuration {
 		Servers:          ServerConfigurations{
 			{
 				URL: "http://localhost:5000",
-				Description: "Localhost",
-			},
-			{
-				URL: "http://your-production-server:5000",
-				Description: "Production",
+				Description: "HiarcServer",
 			},
 		},
 		OperationServers: map[string]ServerConfigurations{
