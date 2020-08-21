@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  description: Welcome to the Hiarc API documentation.
+  license:
+    name: MIT
+  title: Hiarc API
+  version: 0.1.0
+servers:
+- description: Localhost
+  url: http://localhost:5000
+- description: Production
+  url: http://your-production-server:5000
+security:
+- AdminApiKeyAuth: []
+- JWTBearerAuth: []
+paths:
+  /users:
+    post:
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        description: User information
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: A User object
+      security:
+      - AdminApiKeyAuth: []
+      summary: Create a User
+      tags:
+      - User
+  /users/{key}:
+    get:
+      operationId: getUser
+      parameters:
+      - description: Key of user to get
+        explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: A User object
+      security:
+      - AdminApiKeyAuth: []
+      summary: Get a User
+      tags:
+      - User
+  /files:
+    post:
+      operationId: createFile
+      parameters:
+      - explode: false
+        in: header
+        name: X-Hiarc-User-Key
+        required: false
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateFile'
+        description: File information
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+          description: A File object
+      security:
+      - AdminApiKeyAuth: []
+      - JWTBearerAuth: []
+      summary: Create a File
+      tags:
+      - File
+  /files/{key}/download:
+    get:
+      operationId: downloadFile
+      parameters:
+      - description: Optional key of user to impersonate
+        explode: false
+        in: header
+        name: X-Hiarc-User-Key
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: Key of file to download
+        explode: false
+        in: path
+        name: key
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: A binary file
+      security:
+      - AdminApiKeyAuth: []
+      - JWTBearerAuth: []
+      summary: Download a File
+      tags:
+      - File
+components:
+  schemas:
+    EntityBase:
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        metadata:
+          type: object
+      required:
+      - key
+    EntityResponseBase:
+      allOf:
+      - $ref: '#/components/schemas/EntityBase'
+      - $ref: '#/components/schemas/EntityResponseBase_allOf'
+    CreateUser:
+      allOf:
+      - $ref: '#/components/schemas/EntityBase'
+    CreateFile:
+      properties:
+        request:
+          allOf:
+          - $ref: '#/components/schemas/EntityBase'
+          - properties:
+              StorageService:
+                type: string
+            type: object
+        file:
+          format: binary
+          type: string
+      type: object
+    User:
+      allOf:
+      - $ref: '#/components/schemas/EntityResponseBase'
+    File:
+      allOf:
+      - $ref: '#/components/schemas/EntityResponseBase'
+      - $ref: '#/components/schemas/File_allOf'
+    EntityResponseBase_allOf:
+      properties:
+        type:
+          type: string
+        createdBy:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        modifiedAt:
+          format: date-time
+          type: string
+    File_allOf:
+      properties:
+        versionCount:
+          type: number
+  securitySchemes:
+    AdminApiKeyAuth:
+      in: header
+      name: X-Hiarc-Api-Key
+      type: apiKey
+    JWTBearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
