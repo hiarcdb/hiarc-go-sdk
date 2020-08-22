@@ -14,8 +14,8 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 	"os"
+	"strings"
 )
 
 // Linger please
@@ -27,13 +27,12 @@ var (
 type FileApiService service
 
 type apiCreateFileRequest struct {
-	ctx _context.Context
-	apiService *FileApiService
+	ctx           _context.Context
+	apiService    *FileApiService
 	xHiarcUserKey *string
-	request *EntityBase
-	file **os.File
+	request       *EntityBase
+	file          **os.File
 }
-
 
 func (r apiCreateFileRequest) XHiarcUserKey(xHiarcUserKey string) apiCreateFileRequest {
 	r.xHiarcUserKey = &xHiarcUserKey
@@ -58,7 +57,7 @@ CreateFile Create a File
 func (a *FileApiService) CreateFile(ctx _context.Context) apiCreateFileRequest {
 	return apiCreateFileRequest{
 		apiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -86,7 +85,7 @@ func (r apiCreateFileRequest) Execute() (File, *_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-			
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
@@ -174,13 +173,13 @@ func (r apiCreateFileRequest) Execute() (File, *_nethttp.Response, error) {
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
 type apiDownloadFileRequest struct {
-	ctx _context.Context
-	apiService *FileApiService
-	key string
+	ctx           _context.Context
+	apiService    *FileApiService
+	key           string
 	xHiarcUserKey *string
 }
-
 
 func (r apiDownloadFileRequest) XHiarcUserKey(xHiarcUserKey string) apiDownloadFileRequest {
 	r.xHiarcUserKey = &xHiarcUserKey
@@ -196,8 +195,8 @@ DownloadFile Download a File
 func (a *FileApiService) DownloadFile(ctx _context.Context, key string) apiDownloadFileRequest {
 	return apiDownloadFileRequest{
 		apiService: a,
-		ctx: ctx,
-		key: key,
+		ctx:        ctx,
+		key:        key,
 	}
 }
 
@@ -221,13 +220,12 @@ func (r apiDownloadFileRequest) Execute() (*os.File, *_nethttp.Response, error) 
 	}
 
 	localVarPath := localBasePath + "/files/{key}/download"
-	localVarPath = strings.Replace(localVarPath, "{"+"key"+"}", _neturl.QueryEscape(parameterToString(r.key, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"key"+"}", _neturl.QueryEscape(parameterToString(r.key, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
-	
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
