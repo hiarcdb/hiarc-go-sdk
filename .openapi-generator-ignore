@@ -7,7 +7,33 @@
 # As an example, the C# client generator defines ApiClient.cs.
 # You can make changes and tell OpenAPI Generator to ignore just this file by uncommenting the following line:
 #ApiClient.cs
-go.mod
+api_file.go
+model_update_user_request.go
+model_user.go
+model_classification.go
+model_collection.go
+model_create_classification_request.go
+model_create_collection_request.go
+model_create_file_request.go
+model_create_group_request.go
+model_create_legal_hold_request.go
+model_create_or_update_entity_request.go
+model_create_retention_policy_request.go
+model_create_user_request.go
+model_entity.go
+model_update_classification_request.go
+model_update_collection_request.go
+model_update_group_request.go
+model_update_retention_policy_request.go
+model_file.go
+model_find_classifications_request.go
+model_find_collections_request.go
+model_find_entity_request.go
+model_find_groups_request.go
+model_find_retention_policies_request.go
+model_find_users_request.go
+model_group.go
+model_legal_hold.go
 
 # You can match any string of characters against a directory, file or extension with a single asterisk (*):
 #foo/*/qux
